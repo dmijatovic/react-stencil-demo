@@ -1,68 +1,49 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This demo is part of testing Stencil custom web components. The Stencil repo where used custom component is created [can be found here](https://github.com/dmijatovic/dv4all-stencil-web-components)
+
 ## Available Scripts
 
-In the project directory, you can run:
+```bash
+  # standard CRA start
+  npm start
+  # start app without opening new browser
+  npm run dev
+  # build project
+  npm run build
 
-### `npm start`
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## What I need to do to integrate an Stencil component?
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+This is example concerning the steps when integrating Stencil web component.
+In this demo we integrate custom web component called dv4-market-cap-stock-price.
 
-### `npm test`
+The component depends on Highcharts library. The library is not included in the custom web component. if the Highcharts library is not included in the page the component will show error about this.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- include Highcharts from CDN: in the header of index.html file include the library
 
-### `npm run build`
+```html
+<!-- INCLUDE Highcharts library in the header of index.html -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- import custom web component from npm into your project
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```bash
+  npm i -s dv4all-base-web-components
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- tell React that you will be using custom web components (in the file where React renders the DOM tree, typically index.js)
 
-### `npm run eject`
+```Javascript
+  // in index.js file
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  // import Stencils custom element loader fron your npm library
+  import { defineCustomElements } from 'dv4all-base-web-components/dist/loader'
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  // at the bottom of index.js file include this line
+  //define custom web elements created with Stencil
+  defineCustomElements(window)
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```
